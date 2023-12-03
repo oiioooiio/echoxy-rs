@@ -1,0 +1,8 @@
+[workspace]
+
+members = [
+    "echoxy-dns",
+    "echoxy-proxy",
+]
+
+resolver = "2"
