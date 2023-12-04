@@ -1,0 +1,21 @@
+{
+  "server": {
+    "listen_addrs_ipv4": ["192.168.5.1"],
+    "listen_port": 53,
+    "https_listen_port": 443,
+    "tcp_request_timeout": 5,
+    "directory": ".",
+    "tls_cert": {
+      "path": "cert.pem",
+      "endpoint_name": "dns.example.dev",
+      "cert_type": "pem",
+      "private_key": "key.pem",
+      "private_key_type": "pkcs8"
+    }
+  },
+  "proxy": {
+    "listen_addrs_ipv4": ["127.0.0.1"],
+    "listen_addrs_ipv6": ["::1"],
+    "echconfigs": ["AD7+DQA6UAAgACAEr6vuq4b/tGWK6dwkRZWirL18TiGWnZel/XGecQfoagAEAAEAAQALZXhhbXBsZS5jb20AAA=="]
+  }
+}
