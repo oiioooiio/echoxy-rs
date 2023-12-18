@@ -1,0 +1,9 @@
+{
+  "listen_addrs": ["127.0.0.1", "::1"],
+  "ech": [
+    {
+      "key": "MC4CAQAwBQYDK2VuBCIEIGgVDRGP6sh97dkAE6JntPh+nJ3TVzZLDNSHNmJB8n51",
+      "config": "AD7+DQA6UAAgACAEr6vuq4b/tGWK6dwkRZWirL18TiGWnZel/XGecQfoagAEAAEAAQALZXhhbXBsZS5jb20AAA=="
+    }
+  ]
+}
