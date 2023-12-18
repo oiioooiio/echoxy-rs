@@ -16,6 +16,8 @@
   "proxy": {
     "listen_addrs_ipv4": ["127.0.0.1"],
     "listen_addrs_ipv6": ["::1"],
-    "echconfigs": ["AD7+DQA6UAAgACAEr6vuq4b/tGWK6dwkRZWirL18TiGWnZel/XGecQfoagAEAAEAAQALZXhhbXBsZS5jb20AAA=="]
+    "echconfigs": [
+      "AD7+DQA6UAAgACAEr6vuq4b/tGWK6dwkRZWirL18TiGWnZel/XGecQfoagAEAAEAAQALZXhhbXBsZS5jb20AAA=="
+    ]
   }
 }
