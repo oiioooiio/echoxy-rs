@@ -14,6 +14,7 @@ pkcs8 = { workspace = true }
 num_enum = { workspace = true }
 
 tokio = { workspace = true, features = ["full"] }
+tokio-stream = { workspace = true, features = ["net"] }
 clap = { workspace = true, features = ["derive"] }
 serde = { workspace = true }
 serde_with = { workspace = true, features = ["base64"] }

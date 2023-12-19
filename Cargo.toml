@@ -9,6 +9,7 @@ resolver = "2"
 
 [workspace.dependencies]
 tokio = "1.34.0"
+tokio-stream = "0.1.14"
 async-trait = "0.1.74"
 hickory-server = "0.24.0"
 

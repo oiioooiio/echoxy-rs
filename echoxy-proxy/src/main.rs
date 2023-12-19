@@ -14,8 +14,9 @@ use pkcs8::{
 use tokio::{
     io::{copy_bidirectional, AsyncReadExt, AsyncWriteExt},
     net::{TcpListener, TcpStream},
-    task::JoinSet,
 };
+
+use tokio_stream::{wrappers::TcpListenerStream, StreamExt, StreamMap};
 
 use tracing;
 use tracing_subscriber;
@@ -73,35 +74,30 @@ async fn main() {
         })
     };
 
-    let mut join_set: JoinSet<_> = JoinSet::new();
-    for addr in &config.listen_addrs {
-        let addr = addr.clone();
-        let config = config.clone();
-        join_set.spawn(async move {
-            let listener = TcpListener::bind((addr, 443)).await.expect("bind error");
-            tracing::info!("listening: {}", addr);
-            loop {
-                let (stream, _remote_addr) = match listener.accept().await {
-                    Ok((stream, _remote_addr)) => (stream, _remote_addr),
-                    Err(e) => {
-                        tracing::error!("accept error: {}", e);
-                        continue;
-                    }
-                };
-                let config = config.clone();
-                tokio::spawn(async move {
-                    handle_connection(stream, config).await;
-                });
-            }
+    let mut listeners = StreamMap::with_capacity(config.listen_addrs.len());
+
+    for addr in config.listen_addrs.clone() {
+        tracing::info!("listening: {}", addr);
+        let listener = TcpListener::bind((addr, 443)).await.unwrap_or_else(|e| {
+            tracing::error!("failed to bind {}: {}", addr, e);
+            std::process::exit(1);
         });
+        let listener = TcpListenerStream::new(listener);
+        listeners.insert(addr, listener);
     }
-    while let Some(result) = join_set.join_next().await {
-        match result {
-            Ok(_) => {}
+
+    while let Some((_addr, stream)) = listeners.next().await {
+        let config = config.clone();
+        let stream = match stream {
+            Ok(stream) => stream,
             Err(e) => {
-                tracing::error!("join error: {}", e);
+                tracing::error!("accept error: {}", e);
+                continue;
             }
-        }
+        };
+        tokio::spawn(async move {
+            handle_connection(stream, config).await;
+        });
     }
 }
 
